@@ -79,7 +79,7 @@ const MovieRecommendation = () => {
                   </button>
                 ))}
               </div>
-              <div className="flex justify-between flex-wrap">
+              <div>
                 {filteredMovies.map((movie) => (
                   <div key={movie.id} className="flex justify-between px-3">
                     <div className="my-4">
