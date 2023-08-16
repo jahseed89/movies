@@ -16,3 +16,6 @@ https://github.com/jahseed89/movies
 
 ### Project description
 This project is build with react app and styled with tailwindcss
+
+### Deployment url
+https://movies-beta-eight.vercel.app/
