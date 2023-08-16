@@ -1,9 +1,9 @@
 import Home from './home/Home';
 import MovieRecommendation from './movie-recommend/MovieRecommendation';
-import MovieDetails from './movie-detail/MovieDetails';
+import SavedMovies from './saved-movies/SavedMovies';
 
 export {
     Home,
     MovieRecommendation,
-    MovieDetails
+    SavedMovies
 }

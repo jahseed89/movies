@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Route, Routes } from "react-router-dom";
-import { Home, MovieRecommendation, MovieDetails } from "./pages/index";
+import { Home, MovieRecommendation, SavedMovies } from "./pages/index";
 import { NavBar } from "./component/index";
 import MovieDataContext from "./Context";
 import axios from "axios";
@@ -44,7 +44,7 @@ const App = () => {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/movie-recommend" element={<MovieRecommendation />} />
-          <Route path="/movie-details" element={<MovieDetails />} />
+          <Route path="/my-movies" element={<SavedMovies />} />
         </Routes>
       </MovieDataContext.Provider>
     </>

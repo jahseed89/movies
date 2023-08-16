@@ -7,7 +7,7 @@ const NavBar = () => {
         <ul className='flex gap-4 py-6 px-4 text-lg font-bold'>
             <li><Link to='/'>Home</Link></li>
             <li><Link to='movie-recommend'>MovieRecommendation</Link></li>
-            <li><Link to='movie-details'>MovieDetails</Link></li>
+            <li><Link to='my-movies'>My Movies</Link></li>
         </ul>
     </div>
   )
