@@ -10,6 +10,10 @@ const MovieRecommendation = () => {
 
   const handleGenreClick = (genreId) => {
     setSelectedGenreId(genreId);
+    const moviesOfSelectedGenre = movies.filter((movie) =>
+      movie.genre_ids.includes(genreId)
+    );
+    addToLocalStorage(moviesOfSelectedGenre);
   };
 
   const filteredMovies = selectedGenreId
@@ -20,44 +24,55 @@ const MovieRecommendation = () => {
     setSelectedMovie(movie);
   };
 
-  const addToLocalStorage = (movie) => {
+  const addToLocalStorage = (movies) => {
     try {
       const storedMoviesJSON = localStorage.getItem("savedMovies");
       const storedMovies = storedMoviesJSON ? JSON.parse(storedMoviesJSON) : [];
-
-      const isMovieInStorage = storedMovies.some(
-        (storedMovie) => storedMovie.id === movie.id
-      );
-
-      if (!isMovieInStorage) {
-        storedMovies.push(movie);
-        localStorage.setItem("savedMovies", JSON.stringify(storedMovies));
-        addMovieSuccessMsg();
-      } else {
-        toast.error(`Movie already added to your list`, {
+  
+      const storedGenresJSON = localStorage.getItem("savedGenres");
+      const storedGenres = storedGenresJSON ? JSON.parse(storedGenresJSON) : [];
+  
+      let genreAlreadyExists = false;
+  
+      movies.forEach((movie) => {
+        const isMovieInStorage = storedMovies.some(
+          (storedMovie) => storedMovie.id === movie.id
+        );
+  
+        if (!isMovieInStorage) {
+          storedMovies.push(movie);
+          if (!storedGenres.includes(selectedGenreId)) {
+            storedGenres.push(selectedGenreId);
+          }
+        } else {
+          genreAlreadyExists = true;
+        }
+      });
+  
+      if (genreAlreadyExists) {
+        toast(`This movies already in your local storage`, {
           position: "top-center",
           style: {
             background: "#ff0000",
             color: "#ffffff",
           },
         });
+      } else {
+        toast(`Movies added to local storage successfully`, {
+          position: "top-center",
+          style: {
+            background: "rgb(96 165 250)",
+            color: "#fff",
+          },
+        });
       }
+  
+      localStorage.setItem("savedMovies", JSON.stringify(storedMovies));
     } catch (error) {
-      console.error("Error while storing movie:", error);
+      console.error("Error while storing movies:", error);
     }
   };
-
-  const addMovieSuccessMsg = () => {
-    toast(`YOU HAVE SUCCESSFULLY ADDED THIS MOVIE`, {
-      position: "top-center",
-      auth: "5000",
-      style: {
-        background: "#00000",
-        color: "#fffff",
-      },
-    });
-  };
-
+  
   return (
     <div>
       <Toaster />
@@ -88,23 +103,12 @@ const MovieRecommendation = () => {
                         src={`https://image.tmdb.org/t/p/w300${movie.backdrop_path}`}
                         alt={`${movie.title} poster`}
                       />
-                      <p className="flex gap-x-6 my-2">
+                      <p>
                         <button
                           className="text-sm bg-blue-400 rounded-lg text-white px-3 py-2"
                           onClick={() => viewMovieDetails(movie)}
                         >
                           More Details
-                        </button>
-                        <button
-                          className="text-sm bg-blue-400 rounded-lg text-white px-3 py-2"
-                          onClick={() => addToLocalStorage(movie)}
-                          disabled={
-                            selectedMovie && selectedMovie.id === movie.id
-                          } 
-                        >
-                          {selectedMovie && selectedMovie.id === movie.id
-                            ? "Added"
-                            : "Add Movie"}
                         </button>
                       </p>
                     </div>
